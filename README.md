@@ -20,9 +20,11 @@ pip3 install -e .
 ```
 
 ## How the library works
-Reward functions, value functions, transition functions are all `numpy` arrays and matrices. We follow the conventions from Sutton and Barto's [RL Book](http://incompleteideas.net/book/RLbook2020.pdf). 
+Reward functions, value functions, transition functions, policies, and start-state distributions are all `numpy` arrays and matrices. We follow the conventions from Sutton and Barto's [RL Book](http://incompleteideas.net/book/RLbook2020.pdf). 
+ 
 
 We focus only on online algorithms that interact with and get experience from the environment in a purely online way.
+
 ## Contributing
 
 Use `pytest` on the test directories.
