@@ -1,6 +1,6 @@
 from table_rl import learner
 import numpy as np
-
+from pdb import set_trace
 
 class QLearning(learner.Learner):
     """Abstract learner class."""
@@ -17,15 +17,16 @@ class QLearning(learner.Learner):
         self.q = np.full((num_states, num_actions), initial_val)
         self.discount = discount
 
-    def update_q(self, obs, action, reward, terminal):
-        target = reward if terminal else reward + self.discount * np.max(self.q[obs])
-        estimate = self.q[obs,action]
+    def update_q(self, obs, action, reward, terminated, next_obs):
+        target = reward if terminated else reward + self.discount * np.max(self.q[next_obs])
+        estimate = self.q[obs, action]
         self.q[obs, action] = estimate + self.learning_rate * (target - estimate)
 
 
     def act(self, obs: int, train: bool) -> int:
         """Returns an integer 
         """
+        self.current_obs = obs
         q_values = self.q[obs]
         action = self.explorer.select_action(q_values) if train else np.argmax(q_values)
         return action
@@ -36,6 +37,9 @@ class QLearning(learner.Learner):
         Returns:
             None
         """
-        self.update_q(obs, action, reward, terminal)
-        self.explorer.observe(obs, action, reward, terminated, truncated)
+        self.update_q(self.current_obs, action, reward, terminated, obs)
+        self.explorer.observe(self.current_obs)
+        if terminated:
+            self.current_obs = None
+            self.current_obs = None 
 

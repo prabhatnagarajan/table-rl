@@ -15,9 +15,9 @@ class ConstantEpsilonGreedy(explorer.Explorer):
         self.epsilon = epsilon
         self.num_actions = num_actions
 
-    def select_action(self, action_values):
+    def select_action(self, action_values) -> int:
         greedy = np.random.uniform() < 1 - self.epsilon
-        action = np.amax(action_values) if greedy else np.random.choice(self.num_actions)
+        action = np.argmax(action_values) if greedy else np.random.choice(self.num_actions)
         return action
 
     def observe(self, obs):
