@@ -12,7 +12,7 @@ class QLearning(learner.Learner):
                  explorer,
                  discount=0.99,
                  initial_val=0.):
-        self.explorer = 
+        self.explorer = explorer
         self.learning_rate = learning_rate
         self.q = np.full((num_states, num_actions), initial_val)
         self.discount = discount
@@ -20,20 +20,22 @@ class QLearning(learner.Learner):
     def update_q(self, obs, action, reward, terminal):
         target = reward if terminal else reward + self.discount * np.max(self.q[obs])
         estimate = self.q[obs,action]
-        self.q[obs,action] = estimate + self.learning_rate * (target - estimate)
+        self.q[obs, action] = estimate + self.learning_rate * (target - estimate)
 
 
     def act(self, obs: int, train: bool) -> int:
         """Returns an integer 
         """
-        raise NotImplementedError()
-
+        q_values = self.q[obs]
+        action = self.explorer.select_action(q_values) if train else np.argmax(q_values)
+        return action
+        
     def observe(self, obs: int, action: int, reward: float, terminated: bool, truncated: bool) -> None:
         """Observe consequences of the last action.
 
         Returns:
             None
         """
-        self.update_q()
+        self.update_q(obs, action, reward, terminal)
         self.explorer.observe(obs, action, reward, terminated, truncated)
 
