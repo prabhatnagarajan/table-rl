@@ -48,10 +48,22 @@ class BasicGridworld:
 		self.R = np.full((15, 4, 15), -1.0)
 		self.R[0,:,:] = 0
 
+	def step(self, action):
+		next_state = np.random.choice(15, p=env.T[self.current_state,action])
+		reward = self.R[self.current_state, action, next_state]
+		self.current_state = next_state
+		terminated = next_state == 0
+		return next_state, reward, terminated, False, {}
+
+	def reset(self):
+		obs = np.random.randint(1, 15)
+		info = {}
+		self.current_state = obs
+		return obs, info
+
 
 env = BasicGridworld()
 policy = np.full((15, 4), 0.25)
 value_function = dp.policy_v_evaluation(policy, env.R, env.T, 1.0, 10000)
 optimal_values = dp.value_iteration(15, 4, env.R, env.T, 1.0, 10000)
-set_trace()
 
