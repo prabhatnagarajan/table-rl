@@ -38,6 +38,6 @@ class BasicEnv(gymnasium.Env):
     def step(self, action):
         next_state = np.random.choice(3, p=self.T[self.current_state, action])
         reward = self.R[self.current_state, action, next_state]
-        terminated == state == 2
+        terminated = next_state == 2
         self.state = next_state
         return next_state, reward, terminated, False, {}
