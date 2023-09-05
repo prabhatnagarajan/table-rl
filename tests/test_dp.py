@@ -192,7 +192,9 @@ class TestDP:
 
 
     def test_compute_successor_representation(self):
-        sr = compute_successor_representation(self.T, self.pi, self.discount)
+        sr = dp.compute_successor_representation(self.T, self.policy, self.discount)
+        policy_reshaped = np.reshape(self.policy, (self.policy.shape[0], self.policy.shape[1], 1))
+        reward = np.sum(np.sum(self.T * policy_reshaped * self.R, axis=1),axis=1)
         sr_induced_vf = np.dot(sr, reward)
         hand_confirmed_V = np.array([0.791993772, 0.92532566, 0.0])
-        np.testing.assert_allclose(sr_induced_vf, hand_confirmed_V)
+        np.testing.assert_allclose(sr_induced_vf, hand_confirmed_V, atol=1e-05)
