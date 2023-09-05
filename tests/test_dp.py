@@ -2,31 +2,18 @@ import pytest
 import numpy as np
 import math
 import table_rl.dp.dp as dp
+import table_rl
 
 class TestDP:
     @pytest.fixture(autouse=True)
     def setUp(self):
+        self.env = table_rl.env.BasicEnv(discount=0.9)
+        self.T = self.env.T
+        self.R = self.env.R
+
         self.num_states = 3
         self.num_actions = 2 # L and R
-        self.T = np.zeros((self.num_states, self.num_actions, self.num_states))
-        self.R = np.zeros((self.num_states, self.num_actions, self.num_states))
-        left = 0
-        right = 1
-        self.T[0, right, 0] = 0.1
-        self.T[0, right, 1] = 0.9
-        self.T[0, left, 0] = 0.9
-        self.T[0, left, 1] = 0.1
-
-        self.T[1, right, 0] = 0.1
-        self.T[1, right, 2] = 0.9
-        self.T[1, left, 0] = 0.9
-        self.T[1, left, 2] = 0.1
-
-        self.T[2,:,2] = 1.0
-
-        self.R[:,:,2] = 1.0
-        self.R[2,:,2] = 0.0
-
+    
         self.discount = 0.9
 
         self.policy = np.array([[0.3, 0.7],
