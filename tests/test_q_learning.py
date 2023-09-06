@@ -35,7 +35,7 @@ class TestQLearning:
         for _ in range(300000):
             action = agent.act(observation, True)
             observation, reward, terminated, truncated, info = self.env.step(action)
-            agent.observe(observation, action, reward, terminated, truncated)
+            agent.observe(observation, reward, terminated, truncated)
             if terminated or truncated:
                 observation, info = self.env.reset()
 
@@ -54,11 +54,11 @@ class TestQLearning:
                           initial_val=0.)
         agent.q = np.array([[1,2], [3,4], [5,6]], dtype=float)
         agent.current_obs = 0
+        agent.last_action = 0
         mock_next_state = 1
-        mock_action = 0
         mock_reward = 2.0
         expected_updated_q_value = 1 + 0.1 * (mock_reward + self.discount * 4  - 1)
         expected_next_q = np.array([[expected_updated_q_value, 2], [3,4], [5,6]], dtype=float)
-        agent.observe(1, 0, mock_reward, False, False)
+        agent.observe(1, mock_reward, False, False)
         np.testing.assert_allclose(expected_next_q, agent.q)
 

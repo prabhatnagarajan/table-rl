@@ -28,17 +28,18 @@ class QLearning(learner.Learner):
         self.current_obs = obs
         q_values = self.q[obs]
         action = self.explorer.select_action(q_values) if train else np.argmax(q_values)
+        self.last_action = action
         return action
         
-    def observe(self, obs: int, action: int, reward: float, terminated: bool, truncated: bool) -> None:
+    def observe(self, obs: int, reward: float, terminated: bool, truncated: bool) -> None:
         """Observe consequences of the last action.
 
         Returns:
             None
         """
-        self.update_q(self.current_obs, action, reward, terminated, obs)
+        self.update_q(self.current_obs, self.last_action, reward, terminated, obs)
         self.explorer.observe(self.current_obs)
-        if terminated:
+        if terminated or truncated:
             self.current_obs = None
-            self.current_obs = None 
+            self.last_action = None
 
