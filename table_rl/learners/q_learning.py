@@ -14,15 +14,14 @@ class QLearning(learner.Learner):
                  initial_val=0.):
         self.explorer = explorer
         self.learning_rate = learning_rate
-        self.q = np.full((num_states, num_actions), initial_val)
+        self.q = np.full((num_states, num_actions), initial_val, dtype=float)
         self.discount = discount
 
     def update_q(self, obs, action, reward, terminated, next_obs):
         target = reward if terminated else reward + self.discount * np.max(self.q[next_obs])
         estimate = self.q[obs, action]
         self.q[obs, action] = estimate + self.learning_rate * (target - estimate)
-
-
+    
     def act(self, obs: int, train: bool) -> int:
         """Returns an integer 
         """
