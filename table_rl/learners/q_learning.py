@@ -1,6 +1,7 @@
 from table_rl import learner
 import numpy as np
 
+
 class QLearning(learner.Learner):
     """Abstract learner class."""
 
@@ -31,7 +32,7 @@ class QLearning(learner.Learner):
         return action
         
     def observe(self, obs: int, reward: float, terminated: bool, truncated: bool) -> None:
-        """Observe consequences of the last action.
+        """Observe consequences of the last action and update estimates accordingly.
 
         Returns:
             None
