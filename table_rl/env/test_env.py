@@ -10,8 +10,8 @@ class BasicEnv(gymnasium.Env):
 
         self.num_states = 3
         self.num_actions = 2
-        self.T = np.zeros((self.num_states, self.num_actions, self.num_states))
-        self.R = np.zeros((self.num_states, self.num_actions, self.num_states))
+        self.T = np.zeros((self.num_states, self.num_actions, self.num_states), dtype=float)
+        self.R = np.zeros((self.num_states, self.num_actions, self.num_states), dtype=float)
         left = 0
         right = 1
         self.T[0, right, 0] = 0.1
@@ -38,6 +38,6 @@ class BasicEnv(gymnasium.Env):
     def step(self, action):
         next_state = np.random.choice(3, p=self.T[self.current_state, action])
         reward = self.R[self.current_state, action, next_state]
-        terminated == state == 2
-        self.state = next_state
+        terminated = next_state == 2
+        self.current_state = next_state
         return next_state, reward, terminated, False, {}
