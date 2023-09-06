@@ -1,6 +1,5 @@
 import numpy as np
 from table_rl import explorer
-from pdb import set_trace
 
 
 class ConstantEpsilonGreedy(explorer.Explorer):

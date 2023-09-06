@@ -1,6 +1,5 @@
 from table_rl import learner
 import numpy as np
-from pdb import set_trace
 
 class QLearning(learner.Learner):
     """Abstract learner class."""
