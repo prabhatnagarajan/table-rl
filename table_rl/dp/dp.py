@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def policy_q_eval_update(Q, policy, R, T, discount):
     expected_v = np.sum(np.multiply(policy, Q), 1)
     delta = R + discount * np.broadcast_to(expected_v, R.shape)
@@ -158,8 +157,19 @@ def compute_on_policy_distribution(T, pi, start_state_dist=None):
         T_converge_dist = np.dot(converge_dist, T_pi_pow)
     return T_converge_dist
 
+
 def compute_on_policy_sa_distribution(T, pi, start_state_dist=None):
     mu_computed = compute_on_policy_distribution(T, pi, start_state_dist)
     mu_broadcasted = np.broadcast_to(mu_computed, pi.T.shape)
     sa_mu = np.multiply(mu_broadcasted.T, pi)
     return sa_mu
+
+
+def compute_successor_representation(T, pi, discount):
+    assert 0 < discount < 1.
+    assert T.shape == (pi.shape[0], pi.shape[1], pi.shape[0])
+    pi_reshaped = np.reshape(pi, (pi.shape[0], pi.shape[1], 1))
+    T_pi = np.sum(T * pi_reshaped, axis=1)
+    return np.linalg.pinv(np.eye(pi.shape[0]) - discount * T_pi)
+
+
