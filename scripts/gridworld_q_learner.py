@@ -1,10 +1,9 @@
 import gridworld_policy_eval
-from pdb import set_trace
 import gymnasium as gym
 import table_rl
 import numpy as np
 
-env = gridworld_policy_eval.BasicGridworld()
+env = table_rl.env.BasicGridworld()
 
 explorer = table_rl.explorers.ConstantEpsilonGreedy(0.1, 4)
 
