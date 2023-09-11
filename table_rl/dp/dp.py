@@ -170,6 +170,6 @@ def compute_successor_representation(T, pi, discount):
     assert T.shape == (pi.shape[0], pi.shape[1], pi.shape[0])
     pi_reshaped = np.reshape(pi, (pi.shape[0], pi.shape[1], 1))
     T_pi = np.sum(T * pi_reshaped, axis=1)
-    return np.linalg.pinv(np.eye(pi.shape[0]) - discount * T_pi)
+    return np.linalg.inv(np.eye(pi.shape[0]) - discount * T_pi)
 
 
