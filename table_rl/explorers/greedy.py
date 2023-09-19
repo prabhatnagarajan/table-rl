@@ -2,16 +2,14 @@ import numpy as np
 from table_rl import explorer
 
 
-class ConstantEpsilonGreedy(explorer.Explorer):
-    """Epsilon-greedy with constant epsilon.
+class GreedyExplorer(explorer.Explorer):
+    """Explorer that takes the greedy action always.
 
     Args:
-      epsilon: float indicating the value of epsilon
-      num_actions: integer indicating the number of actions
+      num_actions: number of actions
     """
 
-    def __init__(self, epsilon, num_actions):
-        self.epsilon = epsilon
+    def __init__(self, num_actions):
         self.num_actions = num_actions
 
     def select_action(self, action_values) -> int:
