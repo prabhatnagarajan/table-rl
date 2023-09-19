@@ -13,9 +13,8 @@ class GreedyExplorer(explorer.Explorer):
         self.num_actions = num_actions
 
     def select_action(self, action_values) -> int:
-        greedy = np.random.uniform() < 1 - self.epsilon
         best_action_indices = np.flatnonzero(action_values == np.max(action_values))
-        action = np.random.choice(best_action_indices) if greedy else np.random.choice(self.num_actions)
+        action = np.random.choice(best_action_indices)
         return action
 
     def observe(self, obs):
