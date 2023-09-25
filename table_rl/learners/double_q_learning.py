@@ -2,8 +2,8 @@ from table_rl import learner
 import numpy as np
 
 
-class QLearning(learner.Learner):
-    """Class that implements Q-Learning."""
+class DoubleQLearning(learner.Learner):
+    """Class that implements Double Q-Learning."""
 
     def __init__(self,
                  num_states,
@@ -14,10 +14,12 @@ class QLearning(learner.Learner):
                  initial_val=0.):
         self.explorer = explorer
         self.learning_rate = learning_rate
-        self.q = np.full((num_states, num_actions), initial_val, dtype=float)
+        self.q1 = np.full((num_states, num_actions), initial_val, dtype=float)
+        self.q2 = np.full((num_states, num_actions), initial_val, dtype=float)
         self.discount = discount
 
     def update_q(self, obs, action, reward, terminated, next_obs):
+        # TODO: Pick a random Q
         target = reward if terminated else reward + self.discount * np.max(self.q[next_obs])
         estimate = self.q[obs, action]
         self.q[obs, action] = estimate + self.learning_rate * (target - estimate)
@@ -25,6 +27,7 @@ class QLearning(learner.Learner):
     def act(self, obs: int, train: bool) -> int:
         """Returns an integer 
         """
+        # TODO: Pick a random Q-function
         self.current_obs = obs
         q_values = self.q[obs]
         action = self.explorer.select_action(q_values) if train else np.argmax(q_values)
@@ -37,6 +40,7 @@ class QLearning(learner.Learner):
         Returns:
             None
         """
+        # TODO: Double Q-learning update
         self.update_q(self.current_obs, self.last_action, reward, terminated, obs)
         self.explorer.observe(self.current_obs)
         if terminated or truncated:
