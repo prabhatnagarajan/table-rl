@@ -5,7 +5,6 @@ from setuptools import setup
 install_requires = [
     'gym',
     'numpy>=1.10.4',
-    'filelock',
 ]
 
 test_requires = [
@@ -14,7 +13,7 @@ test_requires = [
 ]
 
 setup(name='table-rl',
-      version='0.0.0',
+      version='0.0.1',
       description='table-rl, an online tabular reinforcement learning library',
       long_description=codecs.open('README.md', 'r', encoding='utf-8').read(),
       long_description_content_type='text/markdown',
