@@ -3,9 +3,9 @@ import numpy as np
 import math
 import table_rl
 import table_rl.dp.dp as dp
-from table_rl.learners.q_learning import QLearning
+from table_rl.learners.double_q_learning import DoubleQLearning
 
-class TestQLearning:
+class TestDoubleQLearning:
     @pytest.fixture(autouse=True)
     def setUp(self):
         self.env = table_rl.env.BasicEnv(discount=0.9)
@@ -20,10 +20,10 @@ class TestQLearning:
                            [0.4, 0.6]])
 
 
-    def test_q_learning_loop(self):
+    def test_double_q_learning_loop(self):
         explorer = table_rl.explorers.ConstantEpsilonGreedy(0.1, self.T.shape[1])
 
-        agent = table_rl.learners.QLearning(self.T.shape[0],
+        agent = table_rl.learners.DoubleQLearning(self.T.shape[0],
                           self.T.shape[1],
                           0.02,
                           explorer,
@@ -44,9 +44,9 @@ class TestQLearning:
                                        [0.,         0.        ]])
         np.testing.assert_almost_equal(hand_confirmed_opt, agent.q, decimal=2)
 
-    def test_q_learning_update(self):
+    def test_double_q_learning_update(self):
         explorer = table_rl.explorers.ConstantEpsilonGreedy(0.1, self.T.shape[1])
-        agent = table_rl.learners.QLearning(self.T.shape[0],
+        agent = table_rl.learners.DoubleQLearning(self.T.shape[0],
                           self.T.shape[1],
                           0.1,
                           explorer,

@@ -19,17 +19,21 @@ class DoubleQLearning(learner.Learner):
         self.discount = discount
 
     def update_q(self, obs, action, reward, terminated, next_obs):
-        # TODO: Pick a random Q
-        target = reward if terminated else reward + self.discount * np.max(self.q[next_obs])
-        estimate = self.q[obs, action]
-        self.q[obs, action] = estimate + self.learning_rate * (target - estimate)
+        update_q1 = np.random.random() < 0.5
+        if update_q1:
+            target = reward if terminated else reward + self.discount * self.q2[np.argmax(self.q1[next_obs])]
+            estimate = self.q1[obs, action]
+            self.q1[obs, action] = estimate + self.learning_rate * (target - estimate)
+        else:
+            target = reward if terminated else reward + self.discount * self.q1[np.argmax(self.q2[next_obs])]
+            estimate = self.q2[obs, action]
+            self.q2[obs, action] = estimate + self.learning_rate * (target - estimate)
     
     def act(self, obs: int, train: bool) -> int:
         """Returns an integer 
         """
-        # TODO: Pick a random Q-function
         self.current_obs = obs
-        q_values = self.q[obs]
+        q_values = (self.q1[obs] + self.q2[obs]) / 2
         action = self.explorer.select_action(q_values) if train else np.argmax(q_values)
         self.last_action = action
         return action
@@ -40,7 +44,6 @@ class DoubleQLearning(learner.Learner):
         Returns:
             None
         """
-        # TODO: Double Q-learning update
         self.update_q(self.current_obs, self.last_action, reward, terminated, obs)
         self.explorer.observe(self.current_obs)
         if terminated or truncated:
