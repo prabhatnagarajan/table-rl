@@ -1,6 +1,10 @@
 from table_rl import learner
 import numpy as np
 
+def select_a_greedy_action(action_values):
+    best_action_indices = np.flatnonzero(action_values == np.max(action_values))
+    action = np.random.choice(best_action_indices)
+    return action
 
 class DoubleQLearning(learner.Learner):
     """Class that implements Double Q-Learning."""
@@ -21,11 +25,11 @@ class DoubleQLearning(learner.Learner):
     def update_q(self, obs, action, reward, terminated, next_obs):
         update_q1 = np.random.random() < 0.5
         if update_q1:
-            target = reward if terminated else reward + self.discount * self.q2[np.argmax(self.q1[next_obs])]
+            target = reward if terminated else reward + self.discount * self.q2[next_obs,select_a_greedy_action(self.q1[next_obs])]
             estimate = self.q1[obs, action]
             self.q1[obs, action] = estimate + self.learning_rate * (target - estimate)
         else:
-            target = reward if terminated else reward + self.discount * self.q1[np.argmax(self.q2[next_obs])]
+            target = reward if terminated else reward + self.discount * self.q1[next_obs, select_a_greedy_action(self.q2[next_obs])]
             estimate = self.q2[obs, action]
             self.q2[obs, action] = estimate + self.learning_rate * (target - estimate)
     
@@ -34,7 +38,7 @@ class DoubleQLearning(learner.Learner):
         """
         self.current_obs = obs
         q_values = (self.q1[obs] + self.q2[obs]) / 2
-        action = self.explorer.select_action(q_values) if train else np.argmax(q_values)
+        action = self.explorer.select_action(q_values) if train else select_a_greedy_action(q_values)
         self.last_action = action
         return action
         
