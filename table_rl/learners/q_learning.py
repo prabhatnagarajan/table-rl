@@ -3,7 +3,7 @@ import numpy as np
 
 
 class QLearning(learner.Learner):
-    """Abstract learner class."""
+    """Class that implements Q-Learning."""
 
     def __init__(self,
                  num_states,
