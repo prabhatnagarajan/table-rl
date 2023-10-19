@@ -135,11 +135,9 @@ def compute_transition_under_pi(T, pi):
     assert pi.shape == T.shape[0:2]
     num_states = T.shape[0]
 
-    transition_under_pi = np.zeros((num_states,num_states))
-    for s in range(num_states):
-        for s_prime in range(num_states):
-            transition_under_pi[s, s_prime] = np.dot(T[s, :, s_prime], pi[s,:])
-    return transition_under_pi
+    pi_reshaped = np.reshape(pi, (pi.shape[0], pi.shape[1], 1))
+    T_pi = np.sum(T * pi_reshaped, axis=1)
+    return T_pi
 
 
 def compute_on_policy_distribution(T, pi, start_state_dist=None):
