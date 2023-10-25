@@ -1,6 +1,4 @@
-import contextlib
-import os
-from abc import ABCMeta, abstractmethod, abstractproperty
+from abc import ABCMeta, abstractmethod
 
 
 class Learner(object, metaclass=ABCMeta):
