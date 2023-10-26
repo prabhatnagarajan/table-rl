@@ -119,9 +119,12 @@ def loop_value_iteration(num_states, num_actions, R, T, discount, iterations):
             V[s] = np.max(Q_vals)
     return V
 
-def check_valid_transition(T):
+def assert_transition_shape(T):
     assert len(T.shape) == 3
     assert T.shape[0] == T.shape[2]
+
+def check_valid_transition(T):
+    assert_transition_shape(T)
     states = range(T.shape[0])
     actions = range(T.shape[1])
     for s in states:
@@ -129,8 +132,7 @@ def check_valid_transition(T):
             assert np.sum(T[s,a]) == 1.0
 
 def compute_transition_under_pi(T, pi):
-    assert len(T.shape) == 3
-    assert T.shape[0] == T.shape[2]
+    assert_transition_shape(T)
     assert len(pi.shape) == 2
     assert pi.shape == T.shape[0:2]
     num_states = T.shape[0]
@@ -138,6 +140,13 @@ def compute_transition_under_pi(T, pi):
     pi_reshaped = np.reshape(pi, (pi.shape[0], pi.shape[1], 1))
     T_pi = np.sum(T * pi_reshaped, axis=1)
     return T_pi
+
+def find_terminal_states(T):
+    terminal_states = []
+    for state in range(T.shape[0]):
+        if np.allclose(T[state, :, state], np.full(T.shape[1], 1)):
+            terminal_states.append(state)
+    return terminal_states
 
 
 def compute_on_policy_distribution(T, pi, start_state_dist=None):
@@ -166,8 +175,7 @@ def compute_on_policy_sa_distribution(T, pi, start_state_dist=None):
 def compute_successor_representation(T, pi, discount):
     assert 0 < discount < 1.
     assert T.shape == (pi.shape[0], pi.shape[1], pi.shape[0])
-    pi_reshaped = np.reshape(pi, (pi.shape[0], pi.shape[1], 1))
-    T_pi = np.sum(T * pi_reshaped, axis=1)
+    T_pi = compute_transition_under_pi(T, pi)
     return np.linalg.inv(np.eye(pi.shape[0]) - discount * T_pi)
 
 
