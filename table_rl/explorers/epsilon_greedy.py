@@ -65,7 +65,7 @@ class LinearDecayEpsilonGreedy(explorer.Explorer):
 
 
 class PercentageDecayEpsilonGreedy(explorer.Explorer):
-    """Epsilon-greedy with constant epsilon.
+    """Epsilon-greedy with epsilon decaying by a percentage
 
     Args:
       epsilon_init: float indicating the value of epsilon
