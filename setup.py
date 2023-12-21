@@ -3,7 +3,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 install_requires = [
-    'gym',
+    'gymnasium',
     'numpy>=1.10.4',
 ]
 
