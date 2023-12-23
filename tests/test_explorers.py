@@ -35,4 +35,5 @@ class TestEpsilonGreedyExplorers:
         for expected_epsilon in expected_epsilons:
             actual_epsilon = explorer.epsilon
             assert math.isclose(actual_epsilon, expected_epsilon)
-            explorer.observe(None)g
+            explorer.observe(None)
+
