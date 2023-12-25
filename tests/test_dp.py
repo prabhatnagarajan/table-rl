@@ -7,7 +7,7 @@ import table_rl
 class TestDP:
     @pytest.fixture(autouse=True)
     def setUp(self):
-        self.env = table_rl.env.BasicEnv(discount=0.9)
+        self.env = table_rl.envs.BasicEnv(discount=0.9)
         self.T = self.env.T
         self.R = self.env.R
 
