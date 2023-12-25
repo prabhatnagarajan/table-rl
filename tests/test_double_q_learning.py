@@ -9,7 +9,7 @@ from table_rl.learners.double_q_learning import select_a_greedy_action
 class TestDoubleQLearning:
     @pytest.fixture(autouse=True)
     def setUp(self):
-        self.env = table_rl.env.BasicEnv(discount=0.9)
+        self.env = table_rl.envs.BasicEnv(discount=0.9)
         self.num_states = 3
         self.num_actions = 2 # L and R
         self.T = self.env.T
