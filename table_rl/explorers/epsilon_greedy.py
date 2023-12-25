@@ -2,6 +2,22 @@ import numpy as np
 from table_rl import explorer
 
 
+def select_greedy_action(action_values):
+    best_action_indices = np.flatnonzero(action_values == np.max(action_values))  
+    return np.random.choice(best_action_indices)
+
+
+def select_uniform_random_action(num_actions):
+    return np.random.choice(num_actions)
+
+
+def select_epsilon_greedy_action(epsilon, action_values, num_actions):
+    greedy = np.random.uniform() < 1 - epsilon
+    if greedy:
+        return select_greedy_action(action_values)
+    else:
+        return select_uniform_random_action(num_actions)
+
 class ConstantEpsilonGreedy(explorer.Explorer):
     """Epsilon-greedy with constant epsilon.
 
@@ -15,10 +31,7 @@ class ConstantEpsilonGreedy(explorer.Explorer):
         self.num_actions = num_actions
 
     def select_action(self, action_values) -> int:
-        greedy = np.random.uniform() < 1 - self.epsilon
-        best_action_indices = np.flatnonzero(action_values == np.max(action_values))
-        action = np.random.choice(best_action_indices) if greedy else np.random.choice(self.num_actions)
-        return action
+        return select_epsilon_greedy_action(self.epsilon, action_values, self.num_actions)
 
     def observe(self, obs):
         """Observes and observation and updates internal state
@@ -50,10 +63,7 @@ class LinearDecayEpsilonGreedy(explorer.Explorer):
         self.num_actions = num_actions
 
     def select_action(self, action_values) -> int:
-        greedy = np.random.uniform() < 1 - self.epsilon
-        best_action_indices = np.flatnonzero(action_values == np.max(action_values))
-        action = np.random.choice(best_action_indices) if greedy else np.random.choice(self.num_actions)
-        return action
+        return select_epsilon_greedy_action(self.epsilon, action_values, self.num_actions)
 
     def observe(self, obs):
         """Observes an observation and updates internal state
@@ -81,10 +91,7 @@ class PercentageDecayEpsilonGreedy(explorer.Explorer):
         self.num_actions = num_actions
 
     def select_action(self, action_values) -> int:
-        greedy = np.random.uniform() < 1 - self.epsilon
-        best_action_indices = np.flatnonzero(action_values == np.max(action_values))
-        action = np.random.choice(best_action_indices) if greedy else np.random.choice(self.num_actions)
-        return action
+        return select_epsilon_greedy_action(self.epsilon, action_values, self.num_actions)
 
     def observe(self, obs):
         """Observes an observation and updates internal state
