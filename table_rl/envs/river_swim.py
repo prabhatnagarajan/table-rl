@@ -1,6 +1,6 @@
 import gymnasium
 import numpy as np
-
+import table_rl
 
 class RiverSwimEnv(gymnasium.Env):
     '''
@@ -18,15 +18,20 @@ class RiverSwimEnv(gymnasium.Env):
         
     def construct_transition(self):
         T = np.zeros((self.observation_space.n, self.action_space.n, self.observation_space.n))
-        T[0:5, 1, 1:6] = 0.3
-        T[1:, 0, 0:5] = 1.0
-        T[1:5, 0, 0:5] = 0.1
+        for state in range(5):
+            T[state, 1, state+1] = 0.3
+        for state in range(1,6):
+            T[state, 0, state - 1] = 1.0
+        for state in range(1,5):
+            T[state, 1, state-1] = 0.1
+            T[state, 1, state] = 0.6
         T[5, 1, 4] = 0.7
-        T[1:5, 0, 1:5] = 0.6
+        for state in range(1,5):
+            T[state, 1, state]
         T[0, 0, 0] = 1.0
         T[0, 1, 0] = 0.7
         T[5, 1, 5] = 0.3
-
+        table_rl.dp.dp.check_valid_transition(T)
         self.T = T
 
 
