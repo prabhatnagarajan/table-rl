@@ -25,7 +25,15 @@ class SARSA(learner.Learner):
     def act(self, obs: int, train: bool) -> int:
         """Returns an integer 
         """
-        assert obs == self.next_obs
+        if not train:
+            return np.argmax(self.q[obs])
+        if self.next_obs is not None:
+            assert obs == self.next_obs
+        if self.cached_action is None:
+            action = self.explorer.select_action(q_values) if train else np.argmax(q_values)
+        else:
+            action = self.cached_action
+        # TODO: Call update
         self.current_obs = obs
         q_values = self.q[obs]
         action = self.explorer.select_action(q_values) if train else np.argmax(q_values)
@@ -39,10 +47,14 @@ class SARSA(learner.Learner):
         Returns:
             None
         """
-        self.update_q(self.current_obs, self.last_action, reward, terminated, obs)
+        # self.update_q(self.current_obs, self.last_action, reward, terminated, obs)
         self.next_obs = obs
-        self.explorer.observe(self.current_obs)
+        next_obs_q_values = self.q[self.next_obs]
+        self.cached_action = self.explorer.select_action(next_obs_q_values) if train else np.argmax(next_obs_q_values)
+        self.explorer.observe(obs)
         if terminated or truncated:
             self.current_obs = None
+            self.next_obs = None
+            self.cached_next_action = None
             self.last_action = None
 
