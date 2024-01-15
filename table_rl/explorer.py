@@ -13,11 +13,13 @@ class Explorer(object, metaclass=ABCMeta):
         """
         raise NotImplementedError()
 
-    def observe(self, obs):
+    def observe(self, obs, reward, terminated, truncated):
         """Select an action.
 
         Args:
-          obs: Q-values
-          action_value = vector of action values
+          obs: next state/observation
+          reward: reward received
+          terminated: bool indicating environment termination
+          truncated: bool indicating epsisode truncation
         """
         raise NotImplementedError()
