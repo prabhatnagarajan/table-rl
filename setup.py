@@ -5,6 +5,7 @@ from setuptools import setup
 install_requires = [
     'gymnasium',
     'numpy>=1.10.4',
+    'scipy',
 ]
 
 test_requires = [
