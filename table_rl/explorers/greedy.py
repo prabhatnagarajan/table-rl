@@ -17,10 +17,13 @@ class GreedyExplorer(explorer.Explorer):
         action = np.random.choice(best_action_indices)
         return action
 
-    def observe(self, obs):
+    def observe(self, obs, reward, terminated, truncated):
         """Select an action.
 
         Args:
-          obs: Q-values
+          obs: next state/observation
+          reward: reward received
+          terminated: bool indicating environment termination
+          truncated: bool indicating epsisode truncation
         """
         pass

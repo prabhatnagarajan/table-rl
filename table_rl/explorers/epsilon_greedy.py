@@ -33,11 +33,14 @@ class ConstantEpsilonGreedy(explorer.Explorer):
     def select_action(self, action_values) -> int:
         return select_epsilon_greedy_action(self.epsilon, action_values, self.num_actions)
 
-    def observe(self, obs):
-        """Observes and observation and updates internal state
+    def observe(self, obs, reward, terminated, truncated):
+        """Select an action.
 
         Args:
-          obs: state
+          obs: next state/observation
+          reward: reward received
+          terminated: bool indicating environment termination
+          truncated: bool indicating epsisode truncation
         """
         pass
 
@@ -65,11 +68,14 @@ class LinearDecayEpsilonGreedy(explorer.Explorer):
     def select_action(self, action_values) -> int:
         return select_epsilon_greedy_action(self.epsilon, action_values, self.num_actions)
 
-    def observe(self, obs):
-        """Observes an observation and updates internal state
+    def observe(self, obs, reward, terminated, truncated):
+        """Select an action.
 
         Args:
-          obs: state
+          obs: next state/observation
+          reward: reward received
+          terminated: bool indicating environment termination
+          truncated: bool indicating epsisode truncation
         """
         self.epsilon = max(self.epsilon_end, self.epsilon - self.decay_value)
 
@@ -93,11 +99,14 @@ class PercentageDecayEpsilonGreedy(explorer.Explorer):
     def select_action(self, action_values) -> int:
         return select_epsilon_greedy_action(self.epsilon, action_values, self.num_actions)
 
-    def observe(self, obs):
-        """Observes an observation and updates internal state
+    def observe(self, obs, reward, terminated, truncated):
+        """Select an action.
 
         Args:
-          obs: state
+          obs: next state/observation
+          reward: reward received
+          terminated: bool indicating environment termination
+          truncated: bool indicating epsisode truncation
         """
         self.epsilon = max(self.min_epsilon, self.epsilon * self.decay_percentage)
 

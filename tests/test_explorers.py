@@ -25,7 +25,7 @@ class TestEpsilonGreedyExplorers:
         for expected_epsilon in expected_epsilons:
             actual_epsilon = explorer.epsilon
             assert math.isclose(expected_epsilon, actual_epsilon)
-            explorer.observe(None)
+            explorer.observe(None, None, None, None)
 
 
     def test_pct_decay_epsilon_greedy(self):
@@ -35,5 +35,5 @@ class TestEpsilonGreedyExplorers:
         for expected_epsilon in expected_epsilons:
             actual_epsilon = explorer.epsilon
             assert math.isclose(actual_epsilon, expected_epsilon)
-            explorer.observe(None)
+            explorer.observe(None, None, None, None)
 
