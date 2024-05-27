@@ -25,6 +25,8 @@ class QLearning(learner.Learner):
     def act(self, obs: int, train: bool) -> int:
         """Returns an integer 
         """
+        if self.current_obs is None:
+            self.explorer.observe(obs, None, False, False)
         self.current_obs = obs
         q_values = self.q[obs]
         action = self.explorer.select_action(q_values) if train else np.argmax(q_values)

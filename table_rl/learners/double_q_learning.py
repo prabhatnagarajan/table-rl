@@ -36,6 +36,8 @@ class DoubleQLearning(learner.Learner):
     def act(self, obs: int, train: bool) -> int:
         """Returns an integer 
         """
+        if self.current_obs is None:
+            self.explorer.observe(obs, None, False, False)
         self.current_obs = obs
         q_values = (self.q1[obs] + self.q2[obs]) / 2
         action = self.explorer.select_action(q_values) if train else select_a_greedy_action(q_values)
