@@ -1,7 +1,7 @@
 import gymnasium
 import numpy as np
 import table_rl
-from pdb import set_trace
+
 
 class OverestimationGridworld(gymnasium.Env):
     '''
