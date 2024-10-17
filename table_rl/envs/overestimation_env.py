@@ -49,7 +49,7 @@ class OverestimationGridworld(gymnasium.Env):
 
 
     def step(self, action):
-        next_state = np.random.choice(15, p=self.T[self.current_state,action])
+        next_state = np.random.choice(self.observation_space.n, p=self.T[self.current_state,action])
         if self.current_state == self.goal_state:
             reward = 5.0
             assert next_state == self.terminal_state
