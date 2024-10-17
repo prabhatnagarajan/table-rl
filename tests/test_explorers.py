@@ -9,14 +9,14 @@ class TestEpsilonGreedyExplorers:
     def test_constant_epsilon_greedy(self):
         explorer = table_rl.explorers.ConstantEpsilonGreedy(0.1, 4)
         action_vals = np.array([1.0, 4.0, 4.0, 3.0])
-        actions = [explorer.select_action(action_vals) for _ in range(500)]
+        actions = [explorer.select_action(None, action_vals) for _ in range(500)]
         assert 1 in actions
         assert 2 in actions
         explorer = table_rl.explorers.ConstantEpsilonGreedy(0., 4)
-        actions = [explorer.select_action(action_vals) for _ in range(500)]
+        actions = [explorer.select_action(None, action_vals) for _ in range(500)]
         assert 0 not in actions, actions
         assert 3 not in actions
-        action = explorer.select_action(np.array([1.0, 2.0, 4.0, 3.0]))
+        action = explorer.select_action(None, np.array([1.0, 2.0, 4.0, 3.0]))
         assert action == 2
 
     def test_linear_decay_epsilon_greedy(self):

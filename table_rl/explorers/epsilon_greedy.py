@@ -30,7 +30,7 @@ class ConstantEpsilonGreedy(explorer.Explorer):
         self.epsilon = epsilon
         self.num_actions = num_actions
 
-    def select_action(self, action_values) -> int:
+    def select_action(self, obs, action_values) -> int:
         return select_epsilon_greedy_action(self.epsilon, action_values, self.num_actions)
 
     def observe(self, obs, reward, terminated, truncated):
@@ -65,7 +65,7 @@ class LinearDecayEpsilonGreedy(explorer.Explorer):
         self.decay_value = (self.epsilon_init - self.epsilon_end) / decay_steps
         self.num_actions = num_actions
 
-    def select_action(self, action_values) -> int:
+    def select_action(self, obs, action_values) -> int:
         return select_epsilon_greedy_action(self.epsilon, action_values, self.num_actions)
 
     def observe(self, obs, reward, terminated, truncated):
@@ -96,7 +96,7 @@ class PercentageDecayEpsilonGreedy(explorer.Explorer):
         self.decay_percentage = decay_percentage
         self.num_actions = num_actions
 
-    def select_action(self, action_values) -> int:
+    def select_action(self, obs, action_values) -> int:
         return select_epsilon_greedy_action(self.epsilon, action_values, self.num_actions)
 
     def observe(self, obs, reward, terminated, truncated):

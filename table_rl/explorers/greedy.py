@@ -12,7 +12,7 @@ class GreedyExplorer(explorer.Explorer):
     def __init__(self, num_actions):
         self.num_actions = num_actions
 
-    def select_action(self, action_values) -> int:
+    def select_action(self, obs, action_values) -> int:
         best_action_indices = np.flatnonzero(action_values == np.max(action_values))
         action = np.random.choice(best_action_indices)
         return action

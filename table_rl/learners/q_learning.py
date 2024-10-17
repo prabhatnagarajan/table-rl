@@ -27,7 +27,7 @@ class QLearning(learner.Learner):
         """
         self.current_obs = obs
         q_values = self.q[obs]
-        action = self.explorer.select_action(q_values) if train else np.argmax(q_values)
+        action = self.explorer.select_action(obs, q_values) if train else np.argmax(q_values)
         self.last_action = action
         return action
         
