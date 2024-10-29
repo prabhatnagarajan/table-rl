@@ -5,7 +5,7 @@ import table_rl
 import table_rl.dp.dp as dp
 from table_rl.learners.q_learning import QLearning
 
-class TestQLearning:
+class TestSARSA:
     @pytest.fixture(autouse=True)
     def setUp(self):
         self.env = table_rl.envs.BasicEnv(discount=0.9)
@@ -14,7 +14,6 @@ class TestQLearning:
         self.T = self.env.T
         self.R = self.env.R
         self.discount = 0.9
-
         self.policy = np.array([[0.3, 0.7],
                            [0.2, 0.8],
                            [0.4, 0.6]])

@@ -16,6 +16,8 @@ class SARSA(learner.Learner):
         self.learning_rate = learning_rate
         self.q = np.full((num_states, num_actions), initial_val, dtype=float)
         self.discount = discount
+        self.next_obs = None
+        self.next_action = None
 
     def update_q(self, obs, action, reward, terminated, next_obs, next_action):
         if terminated:
@@ -43,7 +45,7 @@ class SARSA(learner.Learner):
         return action
         
 
-    def observe(self, obs: int, reward: float, terminated: bool, truncated: bool) -> None:
+    def observe(self, obs: int, reward: float, terminated: bool, truncated: bool, training_mode: bool) -> None:
         """Observe consequences of the last action and update estimates accordingly.
 
         Returns:
