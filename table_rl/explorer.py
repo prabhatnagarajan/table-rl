@@ -5,7 +5,7 @@ class Explorer(object, metaclass=ABCMeta):
     """Abstract explorer."""
 
     @abstractmethod
-    def select_action(self, action_values=None):
+    def select_action(self, obs, action_values=None):
         """Select an action.
 
         Args:
