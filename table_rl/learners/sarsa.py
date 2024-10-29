@@ -34,13 +34,14 @@ class SARSA(learner.Learner):
             return np.argmax(self.q[obs])
         if self.next_obs is not None:
             assert obs == self.next_obs
+        q_values = self.q[obs]
         if self.next_action is None:
-            action = self.explorer.select_action(q_values) if train else np.argmax(q_values)
+            action = self.explorer.select_action(obs, q_values) if train else np.argmax(q_values)
         else:
             action = self.next_action
         self.current_obs = obs
         q_values = self.q[obs]
-        action = self.explorer.select_action(q_values) if train else np.argmax(q_values)
+        action = self.explorer.select_action(obs, q_values) if train else np.argmax(q_values)
         self.action = action
         return action
         
@@ -54,13 +55,13 @@ class SARSA(learner.Learner):
         self.next_obs = obs
         next_obs_q_values = self.q[self.next_obs]
         # obs, action, reward, terminated, next_obs, next_action
-        self.next_action = None if terminated else self.explorer.select_action(next_obs_q_values) if train else np.argmax(next_obs_q_values)
+        self.next_action = None if terminated else self.explorer.select_action(self.next_obs, next_obs_q_values) if training_mode else np.argmax(next_obs_q_values)
         if terminated:
             self.next_action = None
         else:
-            self.next_action = self.explorer.select_action(next_obs_q_values) if train else np.argmax(next_obs_q_values)
+            self.next_action = self.explorer.select_action(self.next_obs, next_obs_q_values) if training_mode else np.argmax(next_obs_q_values)
         self.update_q(self.current_obs, self.action, reward, terminated, obs, self.next_action)
-        self.explorer.observe(obs)
+        self.explorer.observe(obs, reward, terminated, truncated)
         if terminated or truncated:
             self.current_obs = None
             self.next_obs = None
