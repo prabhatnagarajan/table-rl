@@ -1,9 +1,8 @@
-import gridworld_policy_eval
 import gymnasium as gym
 import table_rl
 import numpy as np
 
-env = table_rl.env.BasicGridworld()
+env = table_rl.envs.BasicGridworld()
 
 explorer = table_rl.explorers.ConstantEpsilonGreedy(0.1, 4)
 
@@ -18,7 +17,7 @@ observation, info = env.reset()
 for _ in range(100000):
     action = agent.act(observation, True)
     observation, reward, terminated, truncated, info = env.step(action)
-    agent.observe(observation, reward, terminated, truncated)
+    agent.observe(observation, reward, terminated, truncated, training_mode=True)
     if terminated or truncated:
         observation, info = env.reset()
 

@@ -42,7 +42,7 @@ class DoubleQLearning(learner.Learner):
         self.last_action = action
         return action
         
-    def observe(self, obs: int, reward: float, terminated: bool, truncated: bool) -> None:
+    def observe(self, obs: int, reward: float, terminated: bool, truncated: bool, training_mode: bool) -> None:
         """Observe consequences of the last action and update estimates accordingly.
 
         Returns:
