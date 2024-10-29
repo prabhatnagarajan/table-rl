@@ -11,7 +11,7 @@ class Learner(object, metaclass=ABCMeta):
         raise NotImplementedError()
 
     @abstractmethod
-    def observe(self, obs: int, reward: float, terminated: bool, truncated: bool) -> None:
+    def observe(self, obs: int, reward: float, terminated: bool, truncated: bool, training_mode: bool) -> None:
         """Observe consequences of the last action.
 
         Returns:
