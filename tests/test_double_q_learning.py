@@ -36,7 +36,7 @@ class TestDoubleQLearning:
         for _ in range(300000):
             action = agent.act(observation, True)
             observation, reward, terminated, truncated, info = self.env.step(action)
-            agent.observe(observation, reward, terminated, truncated)
+            agent.observe(observation, reward, terminated, truncated, training_mode=True)
             if terminated or truncated:
                 observation, info = self.env.reset()
 
@@ -62,7 +62,7 @@ class TestDoubleQLearning:
         mock_reward = 2.0
         possible_next_q1_value = 1 + 0.1 * (mock_reward + self.discount * 9  - 1)
         possible_next_q2_value = 7 + 0.1 * (mock_reward + self.discount * 3 - 7)
-        agent.observe(1, mock_reward, False, False)
+        agent.observe(1, mock_reward, False, False, training_mode=True)
         q1_chosen = agent.q1[0,0] == possible_next_q1_value
         q2_chosen = agent.q2[0,0] == possible_next_q2_value
         assert q1_chosen or q2_chosen
