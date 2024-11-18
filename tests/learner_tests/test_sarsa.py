@@ -45,7 +45,7 @@ class TestSARSA:
 
 
     def test_sarsa_update(self):
-        explorer = table_rl.explorers.ConstantEpsilonGreedy(0.1, self.T.shape[1])
+        explorer = table_rl.explorers.ConstantEpsilonGreedy(0.0, self.T.shape[1])
         agent = table_rl.learners.SARSA(self.T.shape[0],
                           self.T.shape[1],
                           0.1,
