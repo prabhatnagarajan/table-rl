@@ -16,10 +16,6 @@ class TestDoubleQLearning:
         self.R = self.env.R
         self.discount = 0.9
 
-        self.policy = np.array([[0.3, 0.7],
-                           [0.2, 0.8],
-                           [0.4, 0.6]])
-
 
     def test_double_q_learning_loop(self):
         explorer = table_rl.explorers.ConstantEpsilonGreedy(0.1, self.T.shape[1])
