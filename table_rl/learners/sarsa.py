@@ -55,7 +55,6 @@ class SARSA(learner.Learner):
         self.next_obs = obs
         next_obs_q_values = self.q[self.next_obs]
         # obs, action, reward, terminated, next_obs, next_action
-        self.next_action = None if terminated else self.explorer.select_action(self.next_obs, next_obs_q_values) if training_mode else np.argmax(next_obs_q_values)
         if terminated:
             self.next_action = None
         else:
