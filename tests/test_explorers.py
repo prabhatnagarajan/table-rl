@@ -37,3 +37,23 @@ class TestEpsilonGreedyExplorers:
             assert math.isclose(actual_epsilon, expected_epsilon)
             explorer.observe(None, None, None, None)
 
+
+class TestPolicyExecutor:
+
+    def test_policy_executor(self):
+        policy = np.array([[0.3, 0.7],
+                           [0.2, 0.8],
+                           [0.4, 0.6]])
+        explorer = table_rl.explorers.PolicyExecutor(policy)
+        actions = [explorer.select_action(0, None) for _ in range(500)]
+        assert 0 in actions
+        assert 1 in actions
+        assert 2 not in actions
+        policy = np.array([[0.0, 1.0],
+                   [0.2, 0.8],
+                   [0.4, 0.6]])
+        explorer = table_rl.explorers.PolicyExecutor(policy)
+        actions = [explorer.select_action(0, None) for _ in range(500)]
+        assert all(action == 1 for action in actions)
+      
+
