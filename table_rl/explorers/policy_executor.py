@@ -1,6 +1,5 @@
 import numpy as np
 from table_rl import explorer
-from pdb import set_trace
 
 
 class PolicyExecutor(explorer.Explorer):
@@ -13,10 +12,8 @@ class PolicyExecutor(explorer.Explorer):
     def __init__(self, policy):
         self.policy = policy
 
-
     def select_action(self, obs, action_values) -> int:
         return np.random.choice(self.policy.shape[1], p=self.policy[obs])
-
 
     def observe(self, obs, reward, terminated, truncated):
         """Select an action.
