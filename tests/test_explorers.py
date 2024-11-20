@@ -25,7 +25,7 @@ class TestEpsilonGreedyExplorers:
         for expected_epsilon in expected_epsilons:
             actual_epsilon = explorer.epsilon
             assert math.isclose(expected_epsilon, actual_epsilon)
-            explorer.observe(None, None, None, None)
+            explorer.observe(None, None, None, None, True)
 
 
     def test_pct_decay_epsilon_greedy(self):
@@ -35,8 +35,12 @@ class TestEpsilonGreedyExplorers:
         for expected_epsilon in expected_epsilons:
             actual_epsilon = explorer.epsilon
             assert math.isclose(actual_epsilon, expected_epsilon)
-            explorer.observe(None, None, None, None)
+            explorer.observe(None, None, None, None, True)
 
+    def test_not_training_mode(self):
+        explorer = table_rl.explorers.PercentageDecayEpsilonGreedy(1.0, 0.2, 0.8, 4)
+        for _ in range(100):
+            explorer.observe(None, None, None, None, True)
 
 class TestPolicyExecutor:
 
