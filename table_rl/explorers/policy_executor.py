@@ -15,7 +15,7 @@ class PolicyExecutor(explorer.Explorer):
     def select_action(self, obs, action_values) -> int:
         return np.random.choice(self.policy.shape[1], p=self.policy[obs])
 
-    def observe(self, obs, reward, terminated, truncated):
+    def observe(self, obs, reward, terminated, truncated, training_mode):
         """Select an action.
 
         Args:
@@ -23,6 +23,7 @@ class PolicyExecutor(explorer.Explorer):
           reward: reward received
           terminated: bool indicating environment termination
           truncated: bool indicating epsisode truncation
+          training_mode: bool indicating whether the agent is training
         """
         pass
 
