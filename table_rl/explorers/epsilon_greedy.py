@@ -33,14 +33,15 @@ class ConstantEpsilonGreedy(explorer.Explorer):
     def select_action(self, obs, action_values) -> int:
         return select_epsilon_greedy_action(self.epsilon, action_values, self.num_actions)
 
-    def observe(self, obs, reward, terminated, truncated):
+    def observe(self, obs, reward, terminated, truncated, training_mode):
         """Select an action.
 
         Args:
           obs: next state/observation
           reward: reward received
           terminated: bool indicating environment termination
-          truncated: bool indicating epsisode truncation
+          truncated: bool indicating episode truncation
+          training_mode: bool indicating whether the agent is training
         """
         pass
 
@@ -68,16 +69,18 @@ class LinearDecayEpsilonGreedy(explorer.Explorer):
     def select_action(self, obs, action_values) -> int:
         return select_epsilon_greedy_action(self.epsilon, action_values, self.num_actions)
 
-    def observe(self, obs, reward, terminated, truncated):
+    def observe(self, obs, reward, terminated, truncated, training_mode):
         """Select an action.
 
         Args:
           obs: next state/observation
           reward: reward received
           terminated: bool indicating environment termination
-          truncated: bool indicating epsisode truncation
+          truncated: bool indicating episode truncation
+          training_mode: bool indicating whether the agent is training
         """
-        self.epsilon = max(self.epsilon_end, self.epsilon - self.decay_value)
+        if training_mode:
+            self.epsilon = max(self.epsilon_end, self.epsilon - self.decay_value)
 
 
 class PercentageDecayEpsilonGreedy(explorer.Explorer):
@@ -99,14 +102,16 @@ class PercentageDecayEpsilonGreedy(explorer.Explorer):
     def select_action(self, obs, action_values) -> int:
         return select_epsilon_greedy_action(self.epsilon, action_values, self.num_actions)
 
-    def observe(self, obs, reward, terminated, truncated):
+    def observe(self, obs, reward, terminated, truncated, training_mode):
         """Select an action.
 
         Args:
           obs: next state/observation
           reward: reward received
           terminated: bool indicating environment termination
-          truncated: bool indicating epsisode truncation
+          truncated: bool indicating episode truncation
+          training_mode: bool indicating whether the agent is training
         """
-        self.epsilon = max(self.min_epsilon, self.epsilon * self.decay_percentage)
+        if training_mode:
+            self.epsilon = max(self.min_epsilon, self.epsilon * self.decay_percentage)
 

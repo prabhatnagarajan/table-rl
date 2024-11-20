@@ -49,7 +49,7 @@ class DoubleQLearning(learner.Learner):
             None
         """
         self.update_q(self.current_obs, self.last_action, reward, terminated, obs)
-        self.explorer.observe(obs, reward, terminated, truncated)
+        self.explorer.observe(obs, reward, terminated, truncated, training_mode)
         if terminated or truncated:
             self.current_obs = None
             self.last_action = None
