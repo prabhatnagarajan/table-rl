@@ -40,8 +40,6 @@ class SARSA(learner.Learner):
         else:
             action = self.next_action
         self.current_obs = obs
-        q_values = self.q[obs]
-        action = self.explorer.select_action(obs, q_values) if train else np.argmax(q_values)
         self.action = action
         return action
         
