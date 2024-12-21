@@ -3,12 +3,12 @@ import table_rl
 import numpy as np
 
 env = table_rl.envs.BasicGridworld()
-
+step_size = table_rl.step_size_schedulers.ConstantStepSize(0.05)
 explorer = table_rl.explorers.ConstantEpsilonGreedy(0.1, 4)
 
 agent = table_rl.learners.QLearning(15,
                   4,
-                  0.05,
+                  step_size,
                   explorer,
                   discount=1.0,
                   initial_val=0.)

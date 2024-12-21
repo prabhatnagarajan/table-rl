@@ -24,7 +24,7 @@ class TestSARSA:
 
         agent = table_rl.learners.SARSA(self.T.shape[0],
                           self.T.shape[1],
-                          0.015,
+                          table_rl.step_size_schedulers.ConstantStepSize(0.015),
                           explorer,
                           discount=self.discount,
                           initial_val=0.)
@@ -46,7 +46,7 @@ class TestSARSA:
         explorer = table_rl.explorers.GreedyExplorer(self.T.shape[1])
         agent = table_rl.learners.SARSA(self.T.shape[0],
                           self.T.shape[1],
-                          0.1,
+                          table_rl.step_size_schedulers.ConstantStepSize(0.1),
                           explorer,
                           discount=self.discount,
                           initial_val=0.)
@@ -64,7 +64,7 @@ class TestSARSA:
         explorer = table_rl.explorers.GreedyExplorer(self.T.shape[1])
         agent = table_rl.learners.SARSA(self.T.shape[0],
                           self.T.shape[1],
-                          0.1,
+                          table_rl.step_size_schedulers.ConstantStepSize(0.1),
                           explorer,
                           discount=self.discount,
                           initial_val=0.)
@@ -83,7 +83,7 @@ class TestSARSA:
         explorer = table_rl.explorers.GreedyExplorer(self.T.shape[1])
         agent = table_rl.learners.SARSA(self.T.shape[0],
                           self.T.shape[1],
-                          0.1,
+                          table_rl.step_size_schedulers.ConstantStepSize(0.1),
                           explorer,
                           discount=self.discount,
                           initial_val=0.)

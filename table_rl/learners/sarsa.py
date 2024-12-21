@@ -8,12 +8,12 @@ class SARSA(learner.Learner):
     def __init__(self,
                  num_states,
                  num_actions,
-                 step_size,
+                 step_size_schedule,
                  explorer,
                  discount=0.99,
                  initial_val=0.):
         self.explorer = explorer
-        self.step_size = step_size
+        self.step_size_schedule = step_size_schedule
         self.q = np.full((num_states, num_actions), initial_val, dtype=float)
         self.discount = discount
         self.next_obs = None
@@ -25,7 +25,8 @@ class SARSA(learner.Learner):
         else:
             target = reward + self.discount * self.q[next_obs, next_action]
         estimate = self.q[obs, action]
-        self.q[obs, action] = estimate + self.step_size * (target - estimate)
+        step_size = self.step_size_schedule.step_size(obs)
+        self.q[obs, action] = estimate + step_size * (target - estimate)
     
     def act(self, obs: int, train: bool) -> int:
         """Returns an integer 
@@ -59,6 +60,7 @@ class SARSA(learner.Learner):
             self.next_action = self.explorer.select_action(self.next_obs, next_obs_q_values) if training_mode else np.argmax(next_obs_q_values)
         self.update_q(self.current_obs, self.action, reward, terminated, obs, self.next_action)
         self.explorer.observe(obs, reward, terminated, truncated, training_mode)
+        self.step_size_schedule.observe(obs, reward, terminated, truncated, training_mode)
         if terminated or truncated:
             self.current_obs = None
             self.next_obs = None

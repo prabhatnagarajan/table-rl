@@ -21,7 +21,7 @@ class TestQLearning:
 
         agent = table_rl.learners.QLearning(self.T.shape[0],
                           self.T.shape[1],
-                          0.02,
+                          table_rl.step_size_schedulers.ConstantStepSize(0.02),
                           explorer,
                           discount=self.discount,
                           initial_val=0.)
@@ -44,7 +44,7 @@ class TestQLearning:
         explorer = table_rl.explorers.ConstantEpsilonGreedy(0.1, self.T.shape[1])
         agent = table_rl.learners.QLearning(self.T.shape[0],
                           self.T.shape[1],
-                          0.1,
+                          table_rl.step_size_schedulers.ConstantStepSize(0.1),
                           explorer,
                           discount=self.discount,
                           initial_val=0.)

@@ -1,16 +1,15 @@
 from abc import ABCMeta, abstractmethod
 
 
-class Explorer(object, metaclass=ABCMeta):
+class StepSizeScheduler(object, metaclass=ABCMeta):
     """Abstract explorer."""
 
     @abstractmethod
-    def select_action(self, obs, action_values=None):
-        """Select an action.
+    def step_size(self, obs) -> float:
+        """Select a step-size.
 
         Args:
           obs: observation
-          action_values: np.ndarray of action-values
         """
         raise NotImplementedError()
 

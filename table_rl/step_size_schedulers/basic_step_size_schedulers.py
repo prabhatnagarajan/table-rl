@@ -1,18 +1,19 @@
-from abc import ABCMeta, abstractmethod
+import numpy as np
+from table_rl import step_size_scheduler
 
 
-class Explorer(object, metaclass=ABCMeta):
-    """Abstract explorer."""
+class ConstantStepSize(step_size_scheduler.StepSizeScheduler):
+    """Step-size scheduler that uses a constant step-size
 
-    @abstractmethod
-    def select_action(self, obs, action_values=None):
-        """Select an action.
+    Args:
+      step_size: float step_size
+    """
 
-        Args:
-          obs: observation
-          action_values: np.ndarray of action-values
-        """
-        raise NotImplementedError()
+    def __init__(self, step_size):
+        self.constant_step_size = step_size
+
+    def step_size(self, obs):
+        return self.constant_step_size
 
     def observe(self, obs, reward, terminated, truncated, training_mode):
         """Select an action.
@@ -24,4 +25,4 @@ class Explorer(object, metaclass=ABCMeta):
           truncated: bool indicating episode truncation
           training_mode: bool indicating whether the agent is training
         """
-        raise NotImplementedError()
+        pass
