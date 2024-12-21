@@ -12,12 +12,12 @@ class DoubleQLearning(learner.Learner):
     def __init__(self,
                  num_states,
                  num_actions,
-                 learning_rate,
+                 step_size,
                  explorer,
                  discount=0.99,
                  initial_val=0.):
         self.explorer = explorer
-        self.learning_rate = learning_rate
+        self.step_size = step_size
         self.q1 = np.full((num_states, num_actions), initial_val, dtype=float)
         self.q2 = np.full((num_states, num_actions), initial_val, dtype=float)
         self.discount = discount
@@ -27,11 +27,11 @@ class DoubleQLearning(learner.Learner):
         if update_q1:
             target = reward if terminated else reward + self.discount * self.q2[next_obs,select_a_greedy_action(self.q1[next_obs])]
             estimate = self.q1[obs, action]
-            self.q1[obs, action] = estimate + self.learning_rate * (target - estimate)
+            self.q1[obs, action] = estimate + self.step_size * (target - estimate)
         else:
             target = reward if terminated else reward + self.discount * self.q1[next_obs, select_a_greedy_action(self.q2[next_obs])]
             estimate = self.q2[obs, action]
-            self.q2[obs, action] = estimate + self.learning_rate * (target - estimate)
+            self.q2[obs, action] = estimate + self.step_size * (target - estimate)
     
     def act(self, obs: int, train: bool) -> int:
         """Returns an integer 

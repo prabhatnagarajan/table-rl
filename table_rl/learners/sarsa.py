@@ -8,12 +8,12 @@ class SARSA(learner.Learner):
     def __init__(self,
                  num_states,
                  num_actions,
-                 learning_rate,
+                 step_size,
                  explorer,
                  discount=0.99,
                  initial_val=0.):
         self.explorer = explorer
-        self.learning_rate = learning_rate
+        self.step_size = step_size
         self.q = np.full((num_states, num_actions), initial_val, dtype=float)
         self.discount = discount
         self.next_obs = None
@@ -25,7 +25,7 @@ class SARSA(learner.Learner):
         else:
             target = reward + self.discount * self.q[next_obs, next_action]
         estimate = self.q[obs, action]
-        self.q[obs, action] = estimate + self.learning_rate * (target - estimate)
+        self.q[obs, action] = estimate + self.step_size * (target - estimate)
     
     def act(self, obs: int, train: bool) -> int:
         """Returns an integer 
