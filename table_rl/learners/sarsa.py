@@ -25,7 +25,7 @@ class SARSA(learner.Learner):
         else:
             target = reward + self.discount * self.q[next_obs, next_action]
         estimate = self.q[obs, action]
-        step_size = self.step_size_schedule.step_size(obs)
+        step_size = self.step_size_schedule.step_size(obs, action)
         self.q[obs, action] = estimate + step_size * (target - estimate)
     
     def act(self, obs: int, train: bool) -> int:

@@ -12,7 +12,7 @@ class ConstantStepSize(step_size_scheduler.StepSizeScheduler):
     def __init__(self, step_size):
         self.constant_step_size = step_size
 
-    def step_size(self, obs):
+    def step_size(self, obs, action=None):
         return self.constant_step_size
 
     def observe(self, obs, reward, terminated, truncated, training_mode):
