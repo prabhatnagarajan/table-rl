@@ -5,11 +5,12 @@ class StepSizeScheduler(object, metaclass=ABCMeta):
     """Abstract explorer."""
 
     @abstractmethod
-    def step_size(self, obs) -> float:
+    def step_size(self, obs, action=None) -> float:
         """Select a step-size.
 
         Args:
           obs: observation
+          action: action
         """
         raise NotImplementedError()
 
