@@ -1,4 +1,3 @@
-import gymnasium as gym
 import table_rl
 import numpy as np
 
