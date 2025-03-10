@@ -10,13 +10,16 @@ def select_greedy_action(action_values):
 def select_uniform_random_action(num_actions):
     return np.random.choice(num_actions)
 
-
 def select_epsilon_greedy_action(epsilon, action_values, num_actions):
     greedy = np.random.uniform() < 1 - epsilon
     if greedy:
         return select_greedy_action(action_values)
     else:
         return select_uniform_random_action(num_actions)
+
+def epsilon_greedy_action_probabilities(epsilon, action_values, num_actions):
+    pass
+
 
 class ConstantEpsilonGreedy(explorer.Explorer):
     """Epsilon-greedy with constant epsilon.
@@ -32,6 +35,18 @@ class ConstantEpsilonGreedy(explorer.Explorer):
 
     def select_action(self, obs, action_values) -> int:
         return select_epsilon_greedy_action(self.epsilon, action_values, self.num_actions)
+
+    def compute_action_probabilities(self, obs, action_values=None):
+        """Compute action probabilities.
+
+        Args:
+          obs: observation
+          action_values: np.ndarray of action-values
+
+        Returns:
+          action_probs: a np.ndarray of action probabilities
+        """
+        pass
 
     def observe(self, obs, reward, terminated, truncated, training_mode):
         """Select an action.
@@ -69,6 +84,18 @@ class LinearDecayEpsilonGreedy(explorer.Explorer):
     def select_action(self, obs, action_values) -> int:
         return select_epsilon_greedy_action(self.epsilon, action_values, self.num_actions)
 
+    def compute_action_probabilities(self, obs, action_values=None):
+        """Compute action probabilities.
+
+        Args:
+          obs: observation
+          action_values: np.ndarray of action-values
+
+        Returns:
+          action_probs: a np.ndarray of action probabilities
+        """
+        pass
+
     def observe(self, obs, reward, terminated, truncated, training_mode):
         """Select an action.
 
@@ -101,6 +128,18 @@ class PercentageDecayEpsilonGreedy(explorer.Explorer):
 
     def select_action(self, obs, action_values) -> int:
         return select_epsilon_greedy_action(self.epsilon, action_values, self.num_actions)
+
+    def compute_action_probabilities(self, obs, action_values=None):
+        """Compute action probabilities.
+
+        Args:
+          obs: observation
+          action_values: np.ndarray of action-values
+
+        Returns:
+          action_probs: a np.ndarray of action probabilities
+        """
+        pass
 
     def observe(self, obs, reward, terminated, truncated, training_mode):
         """Select an action.

@@ -16,6 +16,20 @@ class GreedyExplorer(explorer.Explorer):
         best_action_indices = np.flatnonzero(action_values == np.max(action_values))
         action = np.random.choice(best_action_indices)
         return action
+  
+
+    def compute_action_probabilities(self, obs, action_values=None):
+        """Compute action probabilities.
+
+        Args:
+          obs: observation
+          action_values: np.ndarray of action-values
+
+        Returns:
+          action_probs: a np.ndarray of action probabilities
+        """
+        pass
+
 
     def observe(self, obs, reward, terminated, truncated, training_mode):
         """Select an action.
