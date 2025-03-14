@@ -13,6 +13,17 @@ class Explorer(object, metaclass=ABCMeta):
           action_values: np.ndarray of action-values
         """
         raise NotImplementedError()
+  
+    def compute_action_probabilities(self, obs, action_values=None):
+        """Compute action probabilities.
+
+        Args:
+          obs: observation
+          action_values: np.ndarray of action-values
+
+        Returns:
+          action_probs: a np.ndarray of action probabilities
+        """
 
     def observe(self, obs, reward, terminated, truncated, training_mode):
         """Select an action.
