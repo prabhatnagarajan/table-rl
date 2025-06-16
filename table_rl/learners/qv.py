@@ -19,21 +19,24 @@ class QVLearning(learner.Learner):
         self.v = np.full((num_states), initial_val, dtype=float)
         self.discount = discount
 
-    def _update_q(self, obs, action, reward, terminated, next_obs, step_size):
+    def _compute_target(self, reward, next_obs, terminated):
         target = reward if terminated else reward + self.discount * self.v[next_obs]
+        return target
+
+    def _update_q(self, obs, action, target, step_size):
         q_estimate = self.q[obs, action]
         self.q[obs, action] = q_estimate + step_size * (target - q_estimate)
 
-    def _update_v(self, obs, action, reward, terminated, next_obs, step_size):
-        target = reward if terminated else reward + self.discount * self.v[next_obs]
+    def _update_v(self, obs, target, step_size):
         v_estimate = self.v[obs]
         self.v[obs] = v_estimate + step_size * (target - v_estimate)
 
     def update(self, obs, action, reward, terminated, next_obs):
         step_size_q = self.step_size_q_schedule.step_size(obs, action)
         step_size_v = self.step_size_v_schedule.step_size(obs, 0)
-        self._update_q(obs, action, reward, terminated, next_obs, step_size_q)
-        self._update_v(obs, action, reward, terminated, next_obs, step_size_v)
+        target = self._compute_target(reward, next_obs, terminated)
+        self._update_q(obs, action, target, step_size_q)
+        self._update_v(obs, target, step_size_v)
     
     def act(self, obs: int, train: bool) -> int:
         """Returns an integer 
