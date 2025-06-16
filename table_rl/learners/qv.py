@@ -30,7 +30,7 @@ class QVLearning(learner.Learner):
         self.v[obs] = v_estimate + step_size * (target - v_estimate)
 
     def update(self, obs, action, reward, terminated, next_obs):
-        step_size_q = self.step_size_q_schedule.step_size(obs, 0)
+        step_size_q = self.step_size_q_schedule.step_size(obs, action)
         step_size_v = self.step_size_v_schedule.step_size(obs, 0)
         self._update_q(obs, action, reward, terminated, next_obs, step_size_q)
         self._update_v(obs, action, reward, terminated, next_obs, step_size_v)
