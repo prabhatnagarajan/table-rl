@@ -40,7 +40,7 @@ class QVLearning(learner.Learner):
         self.current_obs = obs
         q_values = self.q[obs]
         action = self.explorer.select_action(obs, q_values) if train else np.argmax(q_values)
-        self.last_action = action
+        self.action = action
         return action
         
     def observe(self, obs: int, reward: float, terminated: bool, truncated: bool, training_mode: bool) -> None:
@@ -49,11 +49,11 @@ class QVLearning(learner.Learner):
         Returns:
             None
         """
-        self.update(self.current_obs, self.last_action, reward, terminated, obs)
+        self.update(self.current_obs, self.action, reward, terminated, obs)
         self.explorer.observe(obs, reward, terminated, truncated, training_mode)
         self.step_size_q_schedule.observe(obs, reward, terminated, truncated, training_mode)
         self.step_size_v_schedule.observe(obs, reward, terminated, truncated, training_mode)
         if terminated or truncated:
             self.current_obs = None
-            self.last_action = None
+            self.action = None
 
