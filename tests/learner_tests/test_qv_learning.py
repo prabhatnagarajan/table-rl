@@ -37,7 +37,9 @@ class TestQVLearning:
                 observation, _ = self.env.reset()
 
         expected_q_values = dp.policy_q_evaluation(self.policy, self.R, self.T, self.discount, 2500)
+        expected_v_values = dp.policy_v_evaluation(self.policy, self.R, self.T, self.discount, 2500)
         np.testing.assert_almost_equal(expected_q_values, agent.q, decimal=2)
+        np.testing.assert_almost_equal(expected_v_values, agent.v, decimal=2)
 
 
     def test_qv_learning_update(self):
