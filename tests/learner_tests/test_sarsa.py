@@ -1,9 +1,8 @@
 import pytest
 import numpy as np
-import math
 import table_rl
 import table_rl.dp.dp as dp
-from table_rl.learners.q_learning import QLearning
+from table_rl.learners import SARSA
 
 class TestSARSA:
     @pytest.fixture(autouse=True)
@@ -22,7 +21,7 @@ class TestSARSA:
     def test_sarsa_loop(self):
         explorer = table_rl.explorers.PolicyExecutor(self.policy)
 
-        agent = table_rl.learners.SARSA(self.T.shape[0],
+        agent = SARSA(self.T.shape[0],
                           self.T.shape[1],
                           table_rl.step_size_schedulers.ConstantStepSize(0.015),
                           explorer,
@@ -44,7 +43,7 @@ class TestSARSA:
 
     def test_sarsa_update(self):
         explorer = table_rl.explorers.GreedyExplorer(self.T.shape[1])
-        agent = table_rl.learners.SARSA(self.T.shape[0],
+        agent = SARSA(self.T.shape[0],
                           self.T.shape[1],
                           table_rl.step_size_schedulers.ConstantStepSize(0.1),
                           explorer,
@@ -62,7 +61,7 @@ class TestSARSA:
 
     def test_sarsa_update_termination(self):
         explorer = table_rl.explorers.GreedyExplorer(self.T.shape[1])
-        agent = table_rl.learners.SARSA(self.T.shape[0],
+        agent = SARSA(self.T.shape[0],
                           self.T.shape[1],
                           table_rl.step_size_schedulers.ConstantStepSize(0.1),
                           explorer,
@@ -81,7 +80,7 @@ class TestSARSA:
 
     def test_sarsa_truncation(self):
         explorer = table_rl.explorers.GreedyExplorer(self.T.shape[1])
-        agent = table_rl.learners.SARSA(self.T.shape[0],
+        agent = SARSA(self.T.shape[0],
                           self.T.shape[1],
                           table_rl.step_size_schedulers.ConstantStepSize(0.1),
                           explorer,
