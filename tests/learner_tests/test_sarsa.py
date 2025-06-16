@@ -28,14 +28,14 @@ class TestSARSA:
                           discount=self.discount,
                           initial_val=0.)
 
-        observation, info = self.env.reset()
+        observation, _ = self.env.reset()
 
         for _ in range(400000):
             action = agent.act(observation, True)
-            observation, reward, terminated, truncated, info = self.env.step(action)
+            observation, reward, terminated, truncated, _ = self.env.step(action)
             agent.observe(observation, reward, terminated, truncated, training_mode=True)
             if terminated or truncated:
-                observation, info = self.env.reset()
+                observation, _ = self.env.reset()
 
         expected_q_values = dp.policy_q_evaluation(self.policy, self.R, self.T, self.discount, 2000)
         np.testing.assert_almost_equal(expected_q_values, agent.q, decimal=2)
@@ -52,7 +52,6 @@ class TestSARSA:
         agent.q = np.array([[1,2], [3,4], [5,6]], dtype=float)
         agent.current_obs = 0
         agent.action = 0
-        mock_next_state = 1
         mock_reward = 2.0
         expected_updated_q_value = 1 + 0.1 * (mock_reward + self.discount * 4  - 1)
         expected_next_q = np.array([[expected_updated_q_value, 2], [3,4], [5,6]], dtype=float)
@@ -70,7 +69,6 @@ class TestSARSA:
         agent.q = np.array([[1,2], [3,4], [5,6]], dtype=float)
         agent.current_obs = 0
         agent.action = 0
-        mock_next_state = 1
         mock_reward = 2.0
         expected_updated_q_value = 1 + 0.1 * (mock_reward  - 1)
         expected_next_q = np.array([[expected_updated_q_value, 2], [3,4], [5,6]], dtype=float)
