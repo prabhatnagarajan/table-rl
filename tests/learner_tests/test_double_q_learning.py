@@ -1,9 +1,7 @@
 import pytest
 import numpy as np
-import math
 import table_rl
-import table_rl.dp.dp as dp
-from table_rl.learners.double_q_learning import DoubleQLearning
+from table_rl.learners import DoubleQLearning
 from table_rl.learners.double_q_learning import select_a_greedy_action
 
 class TestDoubleQLearning:
@@ -20,7 +18,7 @@ class TestDoubleQLearning:
     def test_double_q_learning_loop(self):
         explorer = table_rl.explorers.ConstantEpsilonGreedy(0.1, self.T.shape[1])
 
-        agent = table_rl.learners.DoubleQLearning(self.T.shape[0],
+        agent = DoubleQLearning(self.T.shape[0],
                           self.T.shape[1],
                           table_rl.step_size_schedulers.ConstantStepSize(0.02),
                           table_rl.step_size_schedulers.ConstantStepSize(0.02),
@@ -45,7 +43,7 @@ class TestDoubleQLearning:
 
     def test_double_q_learning_update(self):
         explorer = table_rl.explorers.ConstantEpsilonGreedy(0.1, self.T.shape[1])
-        agent = table_rl.learners.DoubleQLearning(self.T.shape[0],
+        agent = DoubleQLearning(self.T.shape[0],
                           self.T.shape[1],
                           table_rl.step_size_schedulers.ConstantStepSize(0.1),
                           table_rl.step_size_schedulers.ConstantStepSize(0.1),
