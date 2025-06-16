@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 import table_rl
 import table_rl.dp.dp as dp
-from table_rl.learners import QVLearning, SARSA
+from table_rl.learners import QVLearning
 
 class TestQVLearning:
     @pytest.fixture(autouse=True)
