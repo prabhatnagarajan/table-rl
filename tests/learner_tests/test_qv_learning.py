@@ -18,27 +18,26 @@ class TestQVLearning:
                            [0.4, 0.6]])
 
 
-    # def test_qv_learning_loop(self):
-    #     explorer = table_rl.explorers.PolicyExecutor(self.policy)
+    def test_qv_learning_loop(self):
+        explorer = table_rl.explorers.PolicyExecutor(self.policy)
+        agent = QVLearning(self.T.shape[0],
+                           self.T.shape[1],
+                           table_rl.step_size_schedulers.ConstantStepSize(0.01),
+                           table_rl.step_size_schedulers.ConstantStepSize(0.01),
+                           explorer,
+                           discount=self.discount,
+                           initial_val=0.)
+        observation, _ = self.env.reset()
 
-    #     agent = SARSA(self.T.shape[0],
-    #                       self.T.shape[1],
-    #                       table_rl.step_size_schedulers.ConstantStepSize(0.015),
-    #                       explorer,
-    #                       discount=self.discount,
-    #                       initial_val=0.)
+        for _ in range(400000):
+            action = agent.act(observation, True)
+            observation, reward, terminated, truncated, _ = self.env.step(action)
+            agent.observe(observation, reward, terminated, truncated, training_mode=True)
+            if terminated or truncated:
+                observation, _ = self.env.reset()
 
-    #     observation, _ = self.env.reset()
-
-    #     for _ in range(400000):
-    #         action = agent.act(observation, True)
-    #         observation, reward, terminated, truncated, _ = self.env.step(action)
-    #         agent.observe(observation, reward, terminated, truncated, training_mode=True)
-    #         if terminated or truncated:
-    #             observation, _ = self.env.reset()
-
-    #     expected_q_values = dp.policy_q_evaluation(self.policy, self.R, self.T, self.discount, 2000)
-    #     np.testing.assert_almost_equal(expected_q_values, agent.q, decimal=2)
+        expected_q_values = dp.policy_q_evaluation(self.policy, self.R, self.T, self.discount, 2500)
+        np.testing.assert_almost_equal(expected_q_values, agent.q, decimal=2)
 
 
     def test_qv_learning_update(self):
