@@ -1,7 +1,4 @@
 import pytest
-import numpy as np
-import math
-import table_rl
 from table_rl.envs import OverestimationGridworld
 
 
