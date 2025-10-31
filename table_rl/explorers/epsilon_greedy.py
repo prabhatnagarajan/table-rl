@@ -158,7 +158,7 @@ class PercentageDecayEpsilonGreedy(explorer.Explorer):
         Returns:
           action_probs: a np.ndarray of action probabilities
         """
-        pass
+        return epsilon_greedy_action_probs(action_values, self.epsilon)
 
     def observe(self, obs, reward, terminated, truncated, training_mode):
         """Select an action.
