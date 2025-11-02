@@ -24,6 +24,7 @@ class Explorer(object, metaclass=ABCMeta):
         Returns:
           action_probs: a np.ndarray of action probabilities
         """
+        raise NotImplementedError()
 
     def observe(self, obs, reward, terminated, truncated, training_mode):
         """Select an action.
