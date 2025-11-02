@@ -13,7 +13,22 @@ class PolicyExecutor(explorer.Explorer):
         self.policy = policy
 
     def select_action(self, obs, action_values) -> int:
-        return np.random.choice(self.policy.shape[1], p=self.policy[obs])
+        action = np.random.choice(self.policy.shape[1], p=self.compute_action_probabilities(obs, action_values))
+        return action
+
+    def compute_action_probabilities(self, obs, action_values=None):
+        """Compute action probabilities.
+
+        Args:
+          obs: observation
+          action_values: np.ndarray of action-values
+
+        Returns:
+          action_probs: a np.ndarray of action probabilities
+        """
+        action_probs = self.policy[obs]
+        return action_probs
+
 
     def observe(self, obs, reward, terminated, truncated, training_mode):
         """Select an action.
@@ -26,6 +41,3 @@ class PolicyExecutor(explorer.Explorer):
           training_mode: bool indicating whether the agent is training
         """
         pass
-
-
-
