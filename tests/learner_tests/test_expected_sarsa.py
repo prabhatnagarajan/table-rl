@@ -1,7 +1,6 @@
 import pytest
 import numpy as np
 import table_rl
-from table_rl.learners import QLearning
 from table_rl.learners import ExpectedSarsa
 
 class TestExpectedSarsa:
