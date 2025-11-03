@@ -12,14 +12,14 @@ env = table_rl.envs.BasicGridworld()
 step_size = table_rl.step_size_schedulers.ConstantStepSize(0.0005)
 explorer = table_rl.explorers.policy_executor.PolicyExecutor(policy)
 
-agent = table_rl.learners.SARSA(15,
+agent = table_rl.learners.ExpectedSarsa(15,
                   4,
                   step_size,
                   explorer,
                   discount=0.99,)
 
 observation, info = env.reset()
-for timestep in range(40_000_000):
+for timestep in range(10_000_000):
     action = agent.act(observation, True)
     observation, reward, terminated, truncated, info = env.step(action)
     agent.observe(observation, reward, terminated, truncated, training_mode=True)
@@ -29,5 +29,3 @@ for timestep in range(40_000_000):
         print(f"Timestep: {timestep}")
 
 np.testing.assert_allclose(correct_action_values, agent.q, rtol=0.02, atol=0.1)
-
-
