@@ -1,4 +1,3 @@
-from table_rl import learner
 from .expected_sarsa import ExpectedSarsa
 import numpy as np
 
